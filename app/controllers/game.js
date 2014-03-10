@@ -61,6 +61,13 @@ export default Ember.Controller.extend({
   }.property('questionStatus'),
 
   actions: {
+    fakeUserJoin: function() {
+      $.ajax({
+        type: 'GET',
+        url: '%@/%@'.fmt(window.ENV.baseApiUrl, 'users/join')
+      });
+    },
+
     startQuiz: function() {
       this.transitionToRoute('game.start');
 
