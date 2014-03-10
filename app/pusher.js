@@ -6,5 +6,5 @@ export default function() {
     }
   };
 
-  return new Pusher(window.ENV.pusherClientId);
+  return new Pusher('df14386e576e4822f681');
 }

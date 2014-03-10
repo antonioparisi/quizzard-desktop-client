@@ -7,4 +7,3 @@
 window.ENV.apiHostname = 'localhost';
 window.ENV.apiPort = '3000';
 window.ENV.baseApiUrl = 'http://' + window.ENV.apiHostname + ':' + window.ENV.apiPort;
-window.ENV.pusherClientId = 'df14386e576e4822f681';
