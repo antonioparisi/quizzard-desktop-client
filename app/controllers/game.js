@@ -57,6 +57,7 @@ export default Ember.Controller.extend({
   }.property('timerCurrentQuestion.timesUp'),
 
   quizFinished: function() {
+    console.log('quiz finished');
     if (this.get('lastQuestion') === true) {
       return true;
     }else {
@@ -90,15 +91,18 @@ export default Ember.Controller.extend({
     nextQuestion: function() {
       var totalQuestions = this.get('questions').length;
 
-      if (totalQuestions > (this.get('questionStatus') + 1)) {
+      this.set('questionStatus', this.get('questionStatus') + 1);
+
+      if (totalQuestions > this.get('questionStatus')) {
         $.ajax({
           type: 'POST',
           url: '%@/%@'.fmt(window.ENV.baseApiUrl, 'quizes/next_question')
         });
-        this.set('questionStatus', this.get('questionStatus') + 1);
       }
 
-      if (totalQuestions >= this.get('questionStatus')) {
+      // We subtract 1 by total questions
+      // because the index of QuestionStatus is synched with an array
+      if (this.get('questionStatus') >= totalQuestions - 1) {
         this.set('lastQuestion', true);
       }
     },
