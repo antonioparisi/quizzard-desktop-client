@@ -1,1 +1,2 @@
-<button type='button' class='btn btn-info btn-lg btn-block' {{action 'nextQuestion'}} {{bind-attr disabled=timerFinished}}>Next Question</button>
+<button type='button' {{bind-attr class=':btn :btn-info :btn-lg :btn-block quizFinished:quiz-finished:quiz-running'}} {{action 'showWinner'}} {{bind-attr disabled=timerFinished}}>Show final results</button>
+<button type='button' {{bind-attr class=':btn :btn-info :btn-lg :btn-block quizFinished:quiz-running:quiz-finished'}} {{action 'nextQuestion'}} {{bind-attr disabled=timerFinished}}>Next Question</button>

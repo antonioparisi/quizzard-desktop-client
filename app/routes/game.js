@@ -18,5 +18,13 @@ export default GameBaseRoute.extend({
       });
       controller.set('questions', questions);
     });
+
+    // Correct answer
+    quiz.bind('correct_answer', function(data) {
+      var score = data.message.score;
+      var userId = data.message.user_id;
+
+      $('[data-user-id="%@"] .score'.fmt(userId)).text(score);
+    });
   }
 });

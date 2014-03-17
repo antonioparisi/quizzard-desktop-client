@@ -3,6 +3,7 @@ import QuestionTimer from 'appkit/models/question_timer';
 export default Ember.Controller.extend({
   needs: ['room'],
   room: Ember.computed.alias('controllers.room'),
+
   // Users online
   users: [],
   // Questions container
@@ -11,6 +12,7 @@ export default Ember.Controller.extend({
   questionStatus: 0,
   // Question timer
   timerCurrentQuestion: null,
+  lastQuestion: false,
 
   currentQuestion: function() {
     if (this.get('questions').length === 0) {
@@ -18,7 +20,7 @@ export default Ember.Controller.extend({
     }
 
     if (this.get('questions').length > this.get('questionStatus')) {
-      // Init question timer
+      // Init question timer for current question
       this.set('timerCurrentQuestion', QuestionTimer.create());
 
       return this.get('questions').objectAt(this.get('questionStatus'));
@@ -54,6 +56,14 @@ export default Ember.Controller.extend({
     }
   }.property('timerCurrentQuestion.timesUp'),
 
+  quizFinished: function() {
+    if (this.get('lastQuestion') === true) {
+      return true;
+    }else {
+      return false;
+    }
+  }.property('lastQuestion'),
+
   // For human readability
   //
   questionStatusFormat: function() {
@@ -78,9 +88,26 @@ export default Ember.Controller.extend({
     },
 
     nextQuestion: function() {
-      if (this.get('questions').length > (this.get('questionStatus') + 1)) {
+      var totalQuestions = this.get('questions').length;
+
+      if (totalQuestions > (this.get('questionStatus') + 1)) {
+        $.ajax({
+          type: 'POST',
+          url: '%@/%@'.fmt(window.ENV.baseApiUrl, 'quizes/next_question')
+        });
         this.set('questionStatus', this.get('questionStatus') + 1);
       }
+
+      if (totalQuestions >= this.get('questionStatus')) {
+        this.set('lastQuestion', true);
+      }
+    },
+
+    showWinner: function() {
+      $.ajax({
+        type: 'GET',
+        url: '%@/%@'.fmt(window.ENV.baseApiUrl, 'quizes/rank')
+      });
     }
   }
 });

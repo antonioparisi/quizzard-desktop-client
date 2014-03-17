@@ -1,10 +1,10 @@
-<tr class='animated fadeInLeft'>
+<tr class='animated fadeInLeft' {{bind-attr data-user-id='user.id'}}>
   <td>
     <img {{bind-attr src='user.picture'}}></img>
     <p class='fullname'>{{fullname}}</p>
   </td>
   <td>
-    <p class='score'>
+    <p class='score fadeInDown'>
       {{score}}
     </p>
   </td>
